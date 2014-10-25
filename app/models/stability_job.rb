@@ -23,7 +23,7 @@ class StabilityJob < ActiveRecord::Base
     candidate_mutations = mutations.split(" ")
 
     invalid_mutations = candidate_mutations.reject do |mutation|
-      parsed = parse_mutation(mutation)
+      parsed = self.class.parse_mutation(mutation)
 
       VALID_AMINO_ACID_ABBREVIATIONS.include?(parsed[:from]) and
         VALID_AMINO_ACID_ABBREVIATIONS.include?(parsed[:to]) and
@@ -53,13 +53,13 @@ class StabilityJob < ActiveRecord::Base
 
     command = "python #{Rails.root.join("lib", "rcsb_get.py")} #{pdb_id}"
     residue_indexes = %x(#{command}).strip.split(" ")
-    istable_start = residue_indexes[0].to_i
-    eris_start = residue_indexes[1].to_i
+    istable_index = residue_indexes[0].to_i
+    eris_index = residue_indexes[1].to_i
 
-    a = parse_mutation(mutations.split(" ").first)
-
-    job = i_stability_mutation_jobs.create
-    job.save
+    job = i_stability_mutation_jobs.create({
+      mutation: mutations.split(" ").first,
+      istable_index: istable_index
+    })
     IStabilityMutationJob.delay.calculate_stability(job.id)
     #IStabilityMutationJob.calculate_stability(job.id)
   end
@@ -76,9 +76,7 @@ class StabilityJob < ActiveRecord::Base
     }
   end
 
-  private
-
-  def parse_mutation(mutation)
+  def self.parse_mutation(mutation)
     {
       from:  mutation[0],
       to:    mutation[-1],

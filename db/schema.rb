@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025135344) do
+ActiveRecord::Schema.define(version: 20141025153730) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20141025135344) do
   create_table "i_stability_mutation_jobs", force: true do |t|
     t.integer "stability_job_id"
     t.string  "result"
+    t.text    "mutation"
+    t.integer "istable_index"
   end
 
   add_index "i_stability_mutation_jobs", ["stability_job_id"], name: "index_i_stability_mutation_jobs_on_stability_job_id"
