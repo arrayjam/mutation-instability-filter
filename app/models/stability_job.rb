@@ -10,6 +10,8 @@
 #
 
 class StabilityJob < ActiveRecord::Base
+  has_many :mutation_jobs
+
   validate :mutation_format, on: :create
   validate :pdb_id_format, on: :create
   validates :pdb_id, presence: true
