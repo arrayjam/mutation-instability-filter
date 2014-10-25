@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: stability_jobs
+#
+#  id         :integer          not null, primary key
+#  pdb_id     :string(255)
+#  mutations  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pdb_id: MyString
+  mutations: MyString
+
+two:
+  pdb_id: MyString
+  mutations: MyString
