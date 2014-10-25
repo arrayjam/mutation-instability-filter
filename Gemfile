@@ -24,6 +24,13 @@ gem 'daemons'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+gem 'd3-rails'
+
+gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
+
+gem 'nokogiri'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -49,4 +56,5 @@ gem 'spring',        group: :development
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
+  gem "pry"
 end

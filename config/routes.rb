@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root 'stability_job#new'
 
-  resources :stability_job
+  resources :stability_job do
+    member do
+      get "status"
+    end
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.

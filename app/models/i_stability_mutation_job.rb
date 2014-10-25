@@ -10,4 +10,12 @@ class IStabilityMutationJob < ActiveRecord::Base
     update_attribute(:result, stability_job.pdb_id + " yay")
     save
   end
+
+  def finished?
+    !result.nil?
+  end
+
+  #def to_json
+
+  #end
 end

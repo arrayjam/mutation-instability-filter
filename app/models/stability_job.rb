@@ -16,6 +16,8 @@ class StabilityJob < ActiveRecord::Base
   validate :pdb_id_format, on: :create
   validates :pdb_id, presence: true
 
+  attr_reader :jobs
+
   VALID_AMINO_ACID_ABBREVIATIONS = %w(A R N D C E Q G H I L K M F P S T W Y V)
 
   def mutation_format
@@ -50,5 +52,10 @@ class StabilityJob < ActiveRecord::Base
     job = i_stability_mutation_jobs.create
     job.save
     IStabilityMutationJob.delay.calculate_stability(job.id)
+  end
+
+  def finished?
+    #i_stability_mutation_jobs
+    i_stability_mutation_jobs.all?(&:finished?)
   end
 end
