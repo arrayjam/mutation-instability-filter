@@ -52,6 +52,12 @@ class StabilityJob < ActiveRecord::Base
     residue.fetch
     update_attribute(:image_url, residue.chain_img_url)
     save
+
+    command = "python #{Rails.root.join("lib", "rcsb_get.py")} #{pdb_id}"
+    residue_indexes = %x(#{command}).strip.split(" ")
+    istable_start = residue_indexes[0].to_i
+    eris_start = residue_indexes[1].to_i
+
     job = i_stability_mutation_jobs.create
     job.save
     IStabilityMutationJob.delay.calculate_stability(job.id)
