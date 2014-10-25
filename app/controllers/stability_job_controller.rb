@@ -6,7 +6,16 @@ class StabilityJobController < ApplicationController
   def create
     stability_job = params[:stability_job]
     mutations = stability_job[:mutations].split(" ").map(&:strip).join(" ")
-    @stability_job = StabilityJob.new(mutations: mutations)
-    valid = @stability_job.valid?
+    pdb_id = stability_job[:pdb_id]
+    @stability_job = StabilityJob.new(mutations: mutations, pdb_id: pdb_id)
+    if @stability_job.save
+      redirect_to @stability_job
+    else
+      flash[:errors] = @stability_job.errors.messages
+      render "new"
+    end
+  end
+
+  def show
   end
 end

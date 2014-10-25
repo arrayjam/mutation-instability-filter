@@ -11,6 +11,9 @@
 
 class StabilityJob < ActiveRecord::Base
   validate :mutation_format, on: :create
+  validate :pdb_id_format, on: :create
+  validates :pdb_id, presence: true
+
   VALID_AMINO_ACID_ABBREVIATIONS = %w(A R N D C E Q G H I L K M F P S T W Y V)
 
   def mutation_format
@@ -27,7 +30,13 @@ class StabilityJob < ActiveRecord::Base
     end
 
     unless invalid_mutations.empty?
-      errors.add(:mutations, "These mutations are invalid: #{invalid_mutations.join(" ")}")
+      errors.add(:mutations, "These mutations are invalid: #{invalid_mutations.join(", ")}")
+    end
+  end
+
+  def pdb_id_format
+    if (/^\w{4}$/ =~ pdb_id).nil?
+      errors.add(:pdb_id, "PDB ID must be a 4-character identifier")
     end
   end
 end

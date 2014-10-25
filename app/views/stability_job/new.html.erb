@@ -1,18 +1,29 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
+      <% if @stability_job.errors.any? %>
+        <div class="bg-danger">
+          <p><%= pluralize(@stability_job.errors.count, "error") %> prohibited this job from starting:</p>
+          <ul>
+            <% @stability_job.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
       <%= form_for @stability_job, url: {action: "create"}, html: {class: "form-horizontal"} do |f| %>
         <div class="form-group">
           <label class="col-sm-2 control-label" for="pdb_id">PDB ID</label>
           <div class="col-sm-10">
-            <%= f.text_field :pdb_id, class: "form-control", value: "2OCJ" %>
+            <%= f.text_field :pdb_id, class: "form-control", value: @stability_job.pdb_id.nil? ? "2OCJ" : @stability_job.pdb_id %>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label" for="mutations">Mutations</label>
           <div class="col-sm-10">
-            <%= f.text_area :mutations, size: "60x16", class: "form-control", value: "F134L\nV143A\nL145Q\nP151S\nV157F\nR175H\nI195T\nN235K\nN239Y\nC242S\nG245S\nR249S\nR273C\nR273H\nR282Q" %>
+            <%= f.text_area :mutations, size: "60x16", class: "form-control", value: @stability_job.mutations.nil? ? "F134L\nV143A\nL145Q\nP151S\nV157F\nR175H\nI195T\nN235K\nN239Y\nC242S\nG245S\nR249S\nR273C\nR273H\nR282Q" : @stability_job.mutations.split(" ").join("\n") %>
           </div>
         </div>
         <div class="form-group">
@@ -25,30 +36,3 @@
   </div>
 </div>
 
-
-<%#<div class="form-group">%>
-  <%#<label for="inputEmail3" class="col-sm-2 control-label">Email</label>%>
-  <%#<div class="col-sm-10">%>
-    <%#<input type="email" class="form-control" id="inputEmail3" placeholder="Email">%>
-  <%#</div>%>
-<%#</div>%>
-<%#<div class="form-group">%>
-  <%#<label for="inputPassword3" class="col-sm-2 control-label">Password</label>%>
-  <%#<div class="col-sm-10">%>
-    <%#<input type="password" class="form-control" id="inputPassword3" placeholder="Password">%>
-  <%#</div>%>
-<%#</div>%>
-<%#<div class="form-group">%>
-  <%#<div class="col-sm-offset-2 col-sm-10">%>
-    <%#<div class="checkbox">%>
-      <%#<label>%>
-        <%#<input type="checkbox"> Remember me%>
-      <%#</label>%>
-    <%#</div>%>
-  <%#</div>%>
-<%#</div>%>
-<%#<div class="form-group">%>
-  <%#<div class="col-sm-offset-2 col-sm-10">%>
-    <%#<button type="submit" class="btn btn-default">Sign in</button>%>
-  <%#</div>%>
-<%#</div>%>
