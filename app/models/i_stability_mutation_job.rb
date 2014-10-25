@@ -1,3 +1,12 @@
+# == Schema Information
+#
+# Table name: i_stability_mutation_jobs
+#
+#  id               :integer          not null, primary key
+#  stability_job_id :integer
+#  result           :string(255)
+#
+
 class IStabilityMutationJob < ActiveRecord::Base
   belongs_to :stability_job
 

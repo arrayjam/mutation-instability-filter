@@ -7,6 +7,7 @@
 #  mutations  :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  image_url  :string(255)
 #
 
 class StabilityJob < ActiveRecord::Base
@@ -15,8 +16,6 @@ class StabilityJob < ActiveRecord::Base
   validate :mutation_format, on: :create
   validate :pdb_id_format, on: :create
   validates :pdb_id, presence: true
-
-  attr_reader :jobs
 
   VALID_AMINO_ACID_ABBREVIATIONS = %w(A R N D C E Q G H I L K M F P S T W Y V)
 
@@ -49,6 +48,10 @@ class StabilityJob < ActiveRecord::Base
   end
 
   def start_mutation_calculations
+    residue = Residue.new(pdb_id)
+    residue.fetch
+    update_attribute(:image_url, residue.chain_img_url)
+    save
     job = i_stability_mutation_jobs.create
     job.save
     IStabilityMutationJob.delay.calculate_stability(job.id)
