@@ -32,8 +32,6 @@ def readFile ():
   chainid = "D"
   rawsequence = data["byChain"][chainid]["img"]["mapData"]["sequence"]
   sequence  = []
-  for row in rawsequence:
-    sequence = sequence + row
   #print "sequence length:",len(sequence)
   iter_num = 0
   for amino in sequence:
