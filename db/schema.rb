@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025090909) do
+ActiveRecord::Schema.define(version: 20141025102658) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -29,8 +29,12 @@ ActiveRecord::Schema.define(version: 20141025090909) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
-# Could not dump table "i_stability_mutation_jobs" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  create_table "i_stability_mutation_jobs", force: true do |t|
+    t.integer "stability_job_id"
+    t.string  "result"
+  end
+
+  add_index "i_stability_mutation_jobs", ["stability_job_id"], name: "index_i_stability_mutation_jobs_on_stability_job_id"
 
   create_table "stability_jobs", force: true do |t|
     t.string   "pdb_id"

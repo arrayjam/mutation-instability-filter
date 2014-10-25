@@ -6,7 +6,7 @@ class IStabilityMutationJob < ActiveRecord::Base
   end
 
   def calculate_stability
-    sleep 3
+    sleep 8
     update_attribute(:result, stability_job.pdb_id + " yay")
     save
   end
