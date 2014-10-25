@@ -23,13 +23,11 @@ class StabilityJob < ActiveRecord::Base
     candidate_mutations = mutations.split(" ")
 
     invalid_mutations = candidate_mutations.reject do |mutation|
-      from = mutation[0]
-      to = mutation[-1]
-      index = mutation[1..-2]
+      parsed = parse_mutation(mutation)
 
-      VALID_AMINO_ACID_ABBREVIATIONS.include?(from) and
-        VALID_AMINO_ACID_ABBREVIATIONS.include?(to) and
-        /^\d+$/ =~ index
+      VALID_AMINO_ACID_ABBREVIATIONS.include?(parsed[:from]) and
+        VALID_AMINO_ACID_ABBREVIATIONS.include?(parsed[:to]) and
+        /^\d+$/ =~ parsed[:index]
     end
 
     unless invalid_mutations.empty?
@@ -58,13 +56,33 @@ class StabilityJob < ActiveRecord::Base
     istable_start = residue_indexes[0].to_i
     eris_start = residue_indexes[1].to_i
 
+    a = parse_mutation(mutations.split(" ").first)
+
     job = i_stability_mutation_jobs.create
     job.save
     IStabilityMutationJob.delay.calculate_stability(job.id)
+    #IStabilityMutationJob.calculate_stability(job.id)
   end
 
   def finished?
     #i_stability_mutation_jobs
     i_stability_mutation_jobs.all?(&:finished?)
+  end
+
+  def status
+    {
+      finished: finished?,
+      status: i_stability_mutation_jobs.first.status
+    }
+  end
+
+  private
+
+  def parse_mutation(mutation)
+    {
+      from:  mutation[0],
+      to:    mutation[-1],
+      index: mutation[1..-2]
+    }
   end
 end

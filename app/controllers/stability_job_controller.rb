@@ -23,6 +23,6 @@ class StabilityJobController < ApplicationController
 
   def status
     @stability_job = StabilityJob.find(params[:id])
-    render json: @stability_job.finished?
+    render json: @stability_job.status
   end
 end

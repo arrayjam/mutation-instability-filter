@@ -7,6 +7,10 @@
 #  result           :string(255)
 #
 
+require "net/http"
+require "uri"
+require "nokogiri"
+
 class IStabilityMutationJob < ActiveRecord::Base
   belongs_to :stability_job
 
@@ -15,13 +19,32 @@ class IStabilityMutationJob < ActiveRecord::Base
   end
 
   def calculate_stability
-    sleep 8
-    update_attribute(:result, stability_job.pdb_id + " yay")
+    uri = URI.parse("http://predictor.nchu.edu.tw/istable/indexPDB.php")
+    response = Net::HTTP.post_form(uri, {
+      "pred"   => "A,F,134,41",
+      "pdbid"  => "2OCJ",
+      "mutant" => "L",
+      "temp"   => "25",
+      "ph"     => "7",
+      "seq"    => ""
+    })
+
+    html = Nokogiri::HTML(response.body)
+    table = html.at_css("table:nth-child(5)")
+    update_attribute(:result, table.to_s)
     save
   end
 
   def finished?
     !result.nil?
+  end
+
+  def status
+    if finished?
+      result
+    else
+      false
+    end
   end
 
   #def to_json
