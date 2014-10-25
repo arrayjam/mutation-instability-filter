@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025072234) do
+ActiveRecord::Schema.define(version: 20141025072517) do
 
   create_table "mutation_jobs", force: true do |t|
-    t.integer  "StabilityJob_id"
+    t.integer  "stability_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "mutation_jobs", ["StabilityJob_id"], name: "index_mutation_jobs_on_StabilityJob_id"
+  add_index "mutation_jobs", ["stability_job_id"], name: "index_mutation_jobs_on_stability_job_id"
 
   create_table "stability_jobs", force: true do |t|
     t.string   "pdb_id"
