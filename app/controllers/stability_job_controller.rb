@@ -17,5 +17,6 @@ class StabilityJobController < ApplicationController
   end
 
   def show
+    @stability_job = StabilityJob.find(params[:id])
   end
 end

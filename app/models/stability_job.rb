@@ -39,4 +39,8 @@ class StabilityJob < ActiveRecord::Base
       errors.add(:pdb_id, "PDB ID must be a 4-character identifier")
     end
   end
+
+  def pdb_id=(val)
+    self[:pdb_id] = val.upcase
+  end
 end
