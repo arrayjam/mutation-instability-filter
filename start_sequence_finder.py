@@ -4,7 +4,6 @@
 #
 import json,sys
 
-
 jfile_name = ""
 
 def notAmino (s):
@@ -13,13 +12,18 @@ def notAmino (s):
   return False
 
 def getNum (s):
-  try:
-    num = int(s[4:6])
-    #print num
-    return num
-  except:
-    #print "No num"
-    return -1
+  len_res = 3
+  num = -1
+  while (len_res>=1):
+    try:
+      num = int(s[4:4+len_res])
+      #print num
+      return num
+    except: 
+      pass
+      #print "No num"
+    len_res = len_res - 1
+  return num
 
 def readFile ():
   global jfile_name
