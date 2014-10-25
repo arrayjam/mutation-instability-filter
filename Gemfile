@@ -19,6 +19,9 @@ gem 'bootstrap-sass', '~> 3.2.0'
 
 gem 'annotate', '~> 2.6.5'
 
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

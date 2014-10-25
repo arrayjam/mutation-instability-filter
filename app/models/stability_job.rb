@@ -10,7 +10,7 @@
 #
 
 class StabilityJob < ActiveRecord::Base
-  has_many :mutation_jobs
+  has_many :i_stability_mutation_jobs
 
   validate :mutation_format, on: :create
   validate :pdb_id_format, on: :create
@@ -44,5 +44,11 @@ class StabilityJob < ActiveRecord::Base
 
   def pdb_id=(val)
     self[:pdb_id] = val.upcase
+  end
+
+  def start_mutation_calculations
+    job = i_stability_mutation_jobs.create
+    job.save
+    IStabilityMutationJob.delay.calculate_stability(job.id)
   end
 end

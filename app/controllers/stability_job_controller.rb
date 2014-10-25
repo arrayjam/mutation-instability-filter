@@ -9,6 +9,7 @@ class StabilityJobController < ApplicationController
     pdb_id = stability_job[:pdb_id]
     @stability_job = StabilityJob.new(mutations: mutations, pdb_id: pdb_id)
     if @stability_job.save
+      p @stability_job.start_mutation_calculations
       redirect_to @stability_job
     else
       flash[:errors] = @stability_job.errors.messages
