@@ -2,28 +2,8 @@
   <div class="row">
     <div class="col-md-6">
       <h2>Protein: <%= link_to @stability_job.pdb_id ,"http://www.rcsb.org/pdb/explore/remediatedSequence.do?structureId=#{@stability_job.pdb_id}&bionumber=1" %></h2>
-      <div data-react-class="JobStatus" data-react-props="<%= {stability_job_id: @stability_job.id}.to_json %>"></div>
       <h3>Mutations:</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Mutation name</th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-          </tr>
-        </thead>
-        <% @stability_job.mutations.split(" ").each do |mutation| %>
-          <tr>
-            <td><%= mutation %></td>
-            <td>Data</td>
-            <td>Data</td>
-            <td>Data</td>
-            <td>Data</td>
-          </tr>
-        <% end %>
-      </table>
+      <div data-react-class="JobStatus" data-react-props="<%= {stability_job_id: @stability_job.id}.to_json %>"></div>
       <img src="<%= @stability_job.image_url %>" />
     </div>
   </div>

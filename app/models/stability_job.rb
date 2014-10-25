@@ -56,11 +56,13 @@ class StabilityJob < ActiveRecord::Base
     istable_index = residue_indexes[0].to_i
     eris_index = residue_indexes[1].to_i
 
-    job = i_stability_mutation_jobs.create({
-      mutation: mutations.split(" ").first,
-      istable_index: istable_index
-    })
-    IStabilityMutationJob.delay.calculate_stability(job.id)
+    mutations.split(" ").each do |mutation|
+      job = i_stability_mutation_jobs.create({
+        mutation: mutation,
+        istable_index: istable_index
+      })
+      IStabilityMutationJob.delay.calculate_stability(job.id)
+    end
     #IStabilityMutationJob.calculate_stability(job.id)
   end
 
@@ -71,8 +73,20 @@ class StabilityJob < ActiveRecord::Base
 
   def status
     {
-      finished: finished?,
-      status: i_stability_mutation_jobs.first.status
+      all_finished: i_stability_mutation_jobs.all?(&:finished?),
+      count: i_stability_mutation_jobs.count,
+      mutations: mutations.split(" ").map do |mutation|
+        {
+          mutation: mutation,
+          jobs: i_stability_mutation_jobs.where({mutation: mutation}).map do |job|
+            {
+              id: job.id,
+              finished: job.finished?,
+              result: job.result
+            }
+          end
+        }
+      end
     }
   end
 

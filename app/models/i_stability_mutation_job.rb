@@ -34,7 +34,8 @@ class IStabilityMutationJob < ActiveRecord::Base
     response = Net::HTTP.post_form(uri, options)
 
     html = Nokogiri::HTML(response.body)
-    table = html.at_css("table:nth-child(5)")
+    #table = html.at_css("table:nth-child(5)")
+    table = html.at_css("tr:nth-child(5)").text.gsub(/\s+/, " ")
     update_attribute(:result, table.to_s)
     save
   end
