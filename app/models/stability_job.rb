@@ -94,12 +94,17 @@ class StabilityJob < ActiveRecord::Base
         {
           mutation: mutation,
           jobs: all_jobs_where({mutation: mutation}).map do |job|
-            {
+            ret = {
               type: job.class.to_s,
               id: job.id,
               finished: job.finished?,
               result: job.result
             }
+
+            if job.finished? && job.respond_to?(:mutant_pdb_file_url)
+              ret[:pdb_url] = job.mutant_pdb_file_url
+            end
+            ret
           end
         }
       end

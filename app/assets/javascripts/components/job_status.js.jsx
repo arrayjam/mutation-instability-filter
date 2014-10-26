@@ -28,6 +28,16 @@ var JobStatus = React.createClass({
                 );
             })
           }
+          <td>
+            {
+              mutation.jobs.filter(function(job) { return job.type === "DuetStabilityMutationJob"; }).map(function(duet) {
+                console.log("here", duet);
+                return (
+                  <div>{duet.finished ? <a href={duet.pdb_url}>Open PDB File</a> : <span></span>}</div>
+                );
+              })
+            }
+          </td>
         </tr>
       );
     });
@@ -36,7 +46,6 @@ var JobStatus = React.createClass({
         <thead>
           <tr>
             <th>Mutation name</th>
-            <th> </th>
             <th> </th>
             <th> </th>
             <th> </th>
