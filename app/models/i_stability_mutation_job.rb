@@ -39,31 +39,34 @@ class IStabilityMutationJob < ActiveRecord::Base
     clean = Hash.new
 
 
-    clean[:iStability] = [
-      {
+    clean[:iStability] = []
+
+    begin
+      clean[:iStability] << {
         type: "i-Mutant 2.0 PDB",
         rsa: table.at_css("tr:nth-child(5) td:nth-child(2)").text.strip,
         val: table.at_css("tr:nth-child(6) td:nth-child(2)").text.strip
-      },
+      }
 
-      {
+      clean[:iStability] << {
         type: "AUTO-MUTE RF",
         rsa: table.at_css("tr:nth-child(4) td:nth-child(5)").text.strip,
         val: table.at_css("tr:nth-child(6) td:nth-child(5)").text.strip
-      },
+      }
 
-      {
+      clean[:iStability] << {
         type: "PoPMuSiC",
         rsa: table.at_css("tr:nth-child(5) td:nth-child(7)").text.strip,
         val: table.at_css("tr:nth-child(6) td:nth-child(7)").text.strip
-      },
+      }
 
-      {
+      clean[:iStability] << {
         type: "CUPSAT",
         rsa: table.at_css("tr:nth-child(5) td:nth-child(8)").text.strip,
         val: table.at_css("tr:nth-child(6) td:nth-child(8)").text.strip
-      },
-    ]
+      }
+    rescue
+    end
 
     update_attribute(:result, clean.to_json)
     save

@@ -16,19 +16,16 @@ var JobStatus = React.createClass({
   },
 
   render: function() {
-    console.log(this.state.mutations);
     var mutations = this.state.mutations.map(function(mutation, m_index) {
       return (
         <tr>
           <td>{mutation.mutation}</td>
           {
             mutation.jobs.map(function(job, j_index) {
-              var type = job.type;
-
               return (
-                <div>{job.finished ? (type === "DuetStabilityMutationJob" ? <DuetResult job={job} mutation={mutation} /> : <IStabilityResult result={job.result} />) : <Spinner />}</div>
+                <div>{job.finished ? (job.type === "DuetStabilityMutationJob" ? <DuetResult stability_job_id={this.props.stability_job_id} job={job} mutation={mutation.mutation} /> : <IStabilityResult result={job.result} />) : <Spinner />}</div>
                 );
-            })
+            }.bind(this))
           }
         </tr>
       );
@@ -45,7 +42,9 @@ var JobStatus = React.createClass({
             <th>DUET</th>
           </tr>
         </thead>
-        {mutations}
+        <tbody>
+          {mutations}
+        </tbody>
       </table>
     );
   }
@@ -77,9 +76,8 @@ var IStabilityResult = React.createClass({
 
 var DuetResult = React.createClass({
   render: function() {
-    console.log(this.props.job.result);
+    console.log(this.props);
     var duet = this.props.job,
-    mutation = this.props.mutation,
     results = this.props.job.result.split("\n").map(function(result) {
       return (
         <div>{result}</div>
@@ -93,7 +91,7 @@ var DuetResult = React.createClass({
             <a href={duet.pdb_url}>Download PDB File</a>
           </div>
           <div>
-            <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, mutation.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
+            <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, this.props.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
           </div>
         </td>
       </div>
