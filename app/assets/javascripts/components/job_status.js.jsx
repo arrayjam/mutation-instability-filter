@@ -32,9 +32,9 @@ var JobStatus = React.createClass({
             {
               mutation.jobs.filter(function(job) { return job.type === "DuetStabilityMutationJob"; }).map(function(duet) {
                 return (
-                  <div>
+                  <div style={{"text-align": "center"}}>
                     <div>{duet.finished ? <a href={duet.pdb_url}>Download PDB File</a> : <span></span>}</div>
-                    <div>{duet.finished ? <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button> : <span></span>}</div>
+                    <div>{duet.finished ? <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, mutation.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button> : <span></span>}</div>
                   </div>
                 );
               }.bind(this))
@@ -44,10 +44,10 @@ var JobStatus = React.createClass({
       );
     }.bind(this));
     return (
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
-            <th>Mutation name</th>
+            <th>Mutation</th>
             <th> </th>
             <th> </th>
             <th> </th>
