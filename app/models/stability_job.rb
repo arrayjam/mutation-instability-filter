@@ -68,7 +68,7 @@ class StabilityJob < ActiveRecord::Base
         mutation: mutation
       })
 
-      DuetStabilityMutationJob.calculate_stability(duet_stability_job.id)
+      DuetStabilityMutationJob.delay.calculate_stability(duet_stability_job.id)
     end
     all_jobs
   end
