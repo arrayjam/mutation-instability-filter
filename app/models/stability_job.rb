@@ -62,7 +62,7 @@ class StabilityJob < ActiveRecord::Base
         mutation: mutation,
         istable_index: istable_index
       })
-      IStabilityMutationJob.delay.calculate_stability(i_stability_job.id)
+      IStabilityMutationJob.calculate_stability(i_stability_job.id)
 
       duet_stability_job = duet_stability_mutation_jobs.create({
         mutation: mutation

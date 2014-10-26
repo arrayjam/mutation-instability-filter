@@ -35,8 +35,37 @@ class IStabilityMutationJob < ActiveRecord::Base
 
     html = Nokogiri::HTML(response.body)
     #table = html.at_css("table:nth-child(5)")
-    table = html.at_css("tr:nth-child(5)").text.gsub(/\s+/, " ")
-    update_attribute(:result, table.to_s)
+    table = html.at_css("table:nth-child(5)")
+    clean = Hash.new
+
+
+    clean[:iStability] = [
+      {
+        type: "i-Mutant 2.0 PDB",
+        rsa: table.at_css("tr:nth-child(5) td:nth-child(2)").text.strip,
+        val: table.at_css("tr:nth-child(6) td:nth-child(2)").text.strip
+      },
+
+      {
+        type: "AUTO-MUTE RF",
+        rsa: table.at_css("tr:nth-child(4) td:nth-child(5)").text.strip,
+        val: table.at_css("tr:nth-child(6) td:nth-child(5)").text.strip
+      },
+
+      {
+        type: "PoPMuSiC",
+        rsa: table.at_css("tr:nth-child(5) td:nth-child(7)").text.strip,
+        val: table.at_css("tr:nth-child(6) td:nth-child(7)").text.strip
+      },
+
+      {
+        type: "CUPSAT",
+        rsa: table.at_css("tr:nth-child(5) td:nth-child(8)").text.strip,
+        val: table.at_css("tr:nth-child(6) td:nth-child(8)").text.strip
+      },
+    ]
+
+    update_attribute(:result, clean.to_json)
     save
   end
 

@@ -23,34 +23,26 @@ var JobStatus = React.createClass({
           <td>{mutation.mutation}</td>
           {
             mutation.jobs.map(function(job, j_index) {
+              var type = job.type;
+
               return (
-                <td>{job.finished ? <Result result={job.result} /> : <Spinner />}</td>
+                <div>{job.finished ? (type === "DuetStabilityMutationJob" ? <DuetResult job={job} mutation={mutation} /> : <IStabilityResult result={job.result} />) : <Spinner />}</div>
                 );
             })
           }
-          <td>
-            {
-              mutation.jobs.filter(function(job) { return job.type === "DuetStabilityMutationJob"; }).map(function(duet) {
-                return (
-                  <div style={{"text-align": "center"}}>
-                    <div>{duet.finished ? <a href={duet.pdb_url}>Download PDB File</a> : <span></span>}</div>
-                    <div>{duet.finished ? <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, mutation.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button> : <span></span>}</div>
-                  </div>
-                );
-              }.bind(this))
-            }
-          </td>
         </tr>
       );
     }.bind(this));
     return (
-      <table className="table">
+      <table className="table table-striped table-hover table-condensed" style={{"text-align": "center"}}>
         <thead>
           <tr>
             <th>Mutation</th>
-            <th> </th>
-            <th> </th>
-            <th> </th>
+            <th>iMutant 2.0 PDB</th>
+            <th>AUTO-MUTE RF</th>
+            <th>PoPMuSiC</th>
+            <th>CUPSAT</th>
+            <th>DUET</th>
           </tr>
         </thead>
         {mutations}
@@ -62,15 +54,49 @@ var JobStatus = React.createClass({
 var Spinner = React.createClass({
   render: function() {
     return (
-      <img src="/assets/spiffygif_28x28.gif" />
+      <td><img src="/assets/spiffygif_28x28.gif" /></td>
     );
   }
 });
 
-var Result = React.createClass({
+var IStabilityResult = React.createClass({
   render: function() {
+    var stabilities = JSON.parse(this.props.result).iStability;
+    var cols = stabilities.map(function(s) {
+      return (
+        <td>{s.val}<br />{s.rsa}</td>
+      );
+    });
     return (
-      <div>{this.props.result}</div>
+      <div>
+        {cols}
+      </div>
+    );
+  }
+});
+
+var DuetResult = React.createClass({
+  render: function() {
+    console.log(this.props.job.result);
+    var duet = this.props.job,
+    mutation = this.props.mutation,
+    results = this.props.job.result.split("\n").map(function(result) {
+      return (
+        <div>{result}</div>
+      );
+    });
+    return (
+      <div>
+        <td>{results}</td>
+        <td>
+          <div>
+            <a href={duet.pdb_url}>Download PDB File</a>
+          </div>
+          <div>
+            <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, mutation.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
+          </div>
+        </td>
+      </div>
     );
   }
 });

@@ -9,9 +9,6 @@ function initGLMol() {
     this.colorByChain(all);
     var asu = new THREE.Object3D();
 
-    this.drawBondsAsStick(asu, hetatm, this.cylinderRadius, this.cylinderRadius);
-    this.drawBondsAsStick(asu, this.getResiduesById(this.getSidechains(this.getChain(all, ['A'])), [58, 87]), this.cylinderRadius, this.cylinderRadius);
-    this.drawBondsAsStick(asu, this.getResiduesById(this.getSidechains(this.getChain(all, ['B'])), [63, 92]), this.cylinderRadius, this.cylinderRadius);
     this.drawCartoon(asu, all, this.curveWidth, this.thickness);
 
     this.drawSymmetryMates2(this.modelGroup, asu, this.protein.biomtMatrices);
