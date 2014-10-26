@@ -51,8 +51,4 @@ class IStabilityMutationJob < ActiveRecord::Base
       false
     end
   end
-
-  #def to_json
-
-  #end
 end

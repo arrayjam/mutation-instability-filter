@@ -12,6 +12,7 @@
 
 class StabilityJob < ActiveRecord::Base
   has_many :i_stability_mutation_jobs
+  has_many :duet_stability_mutation_jobs
 
   validate :mutation_format, on: :create
   validate :pdb_id_format, on: :create
@@ -57,29 +58,44 @@ class StabilityJob < ActiveRecord::Base
     eris_index = residue_indexes[1].to_i
 
     mutations.split(" ").each do |mutation|
-      job = i_stability_mutation_jobs.create({
+      i_stability_job = i_stability_mutation_jobs.create({
         mutation: mutation,
         istable_index: istable_index
       })
-      IStabilityMutationJob.delay.calculate_stability(job.id)
+      IStabilityMutationJob.delay.calculate_stability(i_stability_job.id)
+
+      duet_stability_job = duet_stability_mutation_jobs.create({
+        mutation: mutation
+      })
+
+      DuetStabilityMutationJob.calculate_stability(duet_stability_job.id)
     end
-    #IStabilityMutationJob.calculate_stability(job.id)
+    all_jobs
+  end
+
+  def all_jobs
+    i_stability_mutation_jobs.to_a.concat(duet_stability_mutation_jobs.to_a)
+  end
+
+  def all_jobs_where(where)
+    i_stability_mutation_jobs.where(where).to_a.concat(duet_stability_mutation_jobs.where(where).to_a)
   end
 
   def finished?
-    #i_stability_mutation_jobs
-    i_stability_mutation_jobs.all?(&:finished?)
+    all_jobs.all?(&:finished?)
   end
 
   def status
+    jobs = all_jobs
     {
-      all_finished: i_stability_mutation_jobs.all?(&:finished?),
-      count: i_stability_mutation_jobs.count,
+      all_finished: finished?,
+      count: jobs.count,
       mutations: mutations.split(" ").map do |mutation|
         {
           mutation: mutation,
-          jobs: i_stability_mutation_jobs.where({mutation: mutation}).map do |job|
+          jobs: all_jobs_where({mutation: mutation}).map do |job|
             {
+              type: job.class.to_s,
               id: job.id,
               finished: job.finished?,
               result: job.result
