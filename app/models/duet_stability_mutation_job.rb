@@ -24,8 +24,9 @@ class DuetStabilityMutationJob < ActiveRecord::Base
 
     html = Nokogiri::HTML(output)
     values = html.css('font:contains("Kcal/mol")').map(&:text).map(&:strip)
+    url = html.at_css(".btn-success")[:href].to_s
     update_attributes(
-      mutant_pdb_file_url: html.at_css(".btn-success")[:href].to_s,
+      mutant_pdb_file_url: url,
       result: values.join("\n")
     )
     save

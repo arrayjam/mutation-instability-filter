@@ -15,10 +15,12 @@
 //= require turbolinks
 //= require react
 //= require react_ujs
-//= require components
-//= require_tree .
 //= require jquery
 //= require bootstrap-sprockets
 //= require d3
 //= require react
 //= require react_ujs
+//= require Three49custom.js
+//= require GLmol.js
+//= require components
+//= require_tree .

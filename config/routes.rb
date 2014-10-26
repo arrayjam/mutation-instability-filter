@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'pdb_file/:stability_id/:mutation_id' => 'stability_job#pdb_file'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
