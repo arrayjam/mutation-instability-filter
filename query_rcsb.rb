@@ -19,27 +19,16 @@ def submit_rcsb(acc)
     siteurl = 'http://www.rcsb.org/pdb/explore/remediatedSequence.do?structureId=' + acc +'&bionumber=1'
     
     page = agent.get(siteurl)
-
-#puts page.title #DEBUG:
-
-    #p page.links_with(:href => "P04637")
     
     chids = []
-    page.links.each { |lnk|
-        if lnk.href != nil
-        lnkref = lnk.href
-            if lnkref[-9,8] == "chainId="
-                if lnkref[0,12] == "/pdb/explore"
-                    chids = chids.concat([lnkref[-1]])
-                    p chids
-                end
-            end
+    page.search("//div[@class='se_boxHeader']").each { |prot|
+        prottext = prot.text.strip
+        if prottext[11,7] == 'PROTEIN'
+           chids = chids.concat([prottext[7]])
         end
     }
+    p chids
     return chids
-    #p lnkhref
-    #p page.body['table#top.perc100']
-
     
 end
 
