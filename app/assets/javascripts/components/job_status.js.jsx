@@ -16,36 +16,28 @@ var JobStatus = React.createClass({
   },
 
   render: function() {
-    var mutations = this.state.mutations.map(function(mutation, m_index) {
+    var mutations = this.state.mutations.map(function(mutation) {
       return (
-        <tr>
-          <td>{mutation.mutation}</td>
+        <div>
+          <h2 className="mutation-name">{mutation.mutation}</h2>
           {
-            mutation.jobs.map(function(job, j_index) {
+            mutation.jobs.map(function(job) {
               return (
                 <div>{job.finished ? (job.type === "DuetStabilityMutationJob" ? <DuetResult stability_job_id={this.props.stability_job_id} job={job} mutation={mutation.mutation} /> : <IStabilityResult result={job.result} />) : <Spinner />}</div>
                 );
             }.bind(this))
           }
-        </tr>
+        </div>
       );
     }.bind(this));
     return (
-      <table className="table table-striped table-hover table-condensed" style={{"text-align": "center"}}>
-        <thead>
-          <tr>
-            <th>Mutation</th>
-            <th>iMutant 2.0 PDB</th>
-            <th>AUTO-MUTE RF</th>
-            <th>PoPMuSiC</th>
-            <th>CUPSAT</th>
-            <th>DUET</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mutations}
-        </tbody>
-      </table>
+      <div>{mutations}</div>
+      //<th>Mutation</th>
+      //<th>iMutant 2.0 PDB</th>
+      //<th>AUTO-MUTE RF</th>
+      //<th>PoPMuSiC</th>
+      //<th>CUPSAT</th>
+      //<th>DUET</th>
     );
   }
 });
@@ -53,7 +45,7 @@ var JobStatus = React.createClass({
 var Spinner = React.createClass({
   render: function() {
     return (
-      <td><img src="/assets/spiffygif_28x28.gif" /></td>
+      <div className="spinner"><img src="/assets/spiffygif_28x28.gif" /></div>
     );
   }
 });
@@ -67,9 +59,21 @@ var IStabilityResult = React.createClass({
       );
     });
     return (
-      <div>
-        {cols}
-      </div>
+      <table className="table table-condensed" style={{width: "100%", textAlign: "center", marginTop: "30"}}>
+        <thead>
+          <tr>
+            <th>iMutant 2.0 PDB</th>
+            <th>AUTO-MUTE RF</th>
+            <th>PoPMuSiC</th>
+            <th>CUPSAT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {cols}
+          </tr>
+        </tbody>
+      </table>
     );
   }
 });
@@ -80,21 +84,40 @@ var DuetResult = React.createClass({
     var duet = this.props.job,
     results = this.props.job.result.split("\n").map(function(result) {
       return (
-        <div>{result}</div>
+        <td>{result}</td>
       );
     });
     return (
       <div>
-        <td>{results}</td>
-        <td>
-          <div>
-            <a href={duet.pdb_url}>Download PDB File</a>
+        <table className="table table-condensed" style={{width: "100%", textAlign: "center", marginTop: "30"}}>
+          <thead>
+            <tr>
+              <th>mCSM Predicted Stability Change</th>
+              <th>SDM Predicted Stability Change</th>
+              <th>DUET Predicted Stability Change </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {results}
+            </tr>
+          </tbody>
+        </table>
+        <div className="row well">
+          <div className="col-xs-6">
+            <a className="btn btn-block btn-default" href={duet.pdb_url}>Download PDB File</a>
           </div>
-          <div>
-            <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, this.props.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
+          <div className="col-xs-6">
+            <button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, this.props.mutation)} className="btn btn-block btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
           </div>
-        </td>
+        </div>
       </div>
+      //<td>
+      //<a href={duet.pdb_url}>Download PDB File</a>
+      //</td>
+      //<td>
+      //<button onClick={selectMol.bind(null, this.props.stability_job_id, duet.id, this.props.mutation)} className="btn btn-primary pdb_link" value={duet.pdb_url}>View PDB File</button>
+      //</td>
     );
   }
 });

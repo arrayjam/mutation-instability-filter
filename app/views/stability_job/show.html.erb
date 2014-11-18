@@ -1,19 +1,23 @@
 <style>
-  table th {
+  th {
+    text-align: center;
+  }
+  .mutation-name {
+  }
+
+  .spinner {
     text-align: center;
   }
 </style>
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
-      <h2>Protein: <%= link_to @stability_job.pdb_id ,"http://www.rcsb.org/pdb/explore/remediatedSequence.do?structureId=#{@stability_job.pdb_id}&bionumber=1" %></h2>
+    <h2>Protein: <%= link_to @stability_job.pdb_id ,"http://www.rcsb.org/pdb/explore/remediatedSequence.do?structureId=#{@stability_job.pdb_id}&bionumber=1" %></h2>
+    <div class="col-md-12 col-lg-6">
       <div data-react-class="JobStatus" data-react-props="<%= {stability_job_id: @stability_job.id}.to_json %>"></div>
       <h1 id="viewer"></h1>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-lg-6">
       <div id="glmol01" style="width: 100%; height: 400px; background-color: black;"></div>
       <textarea id="glmol01_src" style="display: none;"></textarea>
     </div>
