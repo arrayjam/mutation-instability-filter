@@ -23,7 +23,7 @@ var JobStatus = React.createClass({
           {
             mutation.jobs.map(function(job) {
               return (
-                <div>{job.finished ? (job.type === "DuetStabilityMutationJob" ? <DuetResult stability_job_id={this.props.stability_job_id} job={job} mutation={mutation.mutation} /> : <IStabilityResult result={job.result} />) : <Spinner />}</div>
+                <div>{job.finished ? (job.type === "DuetStabilityMutationJob" ? <DuetResult stability_job_id={this.props.stability_job_id} job={job} mutation={mutation.mutation} /> : <IStabilityResult result={job.result} />) : <Spinner spinnyImagePath={this.props.spinnyImagePath} />}</div>
                 );
             }.bind(this))
           }
@@ -45,7 +45,7 @@ var JobStatus = React.createClass({
 var Spinner = React.createClass({
   render: function() {
     return (
-      <div className="spinner"><img src="/assets/spiffygif_28x28.gif" /></div>
+      <div className="spinner"><img src={this.props.spinnyImagePath} /></div>
     );
   }
 });

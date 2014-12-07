@@ -14,7 +14,7 @@
   <div class="row">
     <h2>Protein: <%= link_to @stability_job.pdb_id ,"http://www.rcsb.org/pdb/explore/remediatedSequence.do?structureId=#{@stability_job.pdb_id}&bionumber=1" %></h2>
     <div class="col-md-12 col-lg-6">
-      <div data-react-class="JobStatus" data-react-props="<%= {stability_job_id: @stability_job.id}.to_json %>"></div>
+      <div data-react-class="JobStatus" data-react-props="<%= {stability_job_id: @stability_job.id, spinnyImagePath: asset_path("spiffygif_28x28.gif")}.to_json %>"></div>
     </div>
     <div class="col-md-6 col-lg-6">
       <h1 id="viewer"></h1>
