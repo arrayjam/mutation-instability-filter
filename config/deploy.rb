@@ -60,17 +60,23 @@ namespace :foreman do
 
   desc "Start the application services"
   task :start do
-    sudo "start #{fetch(:application)}"
+    on roles(:app) do
+      sudo "start #{fetch(:application)}"
+    end
   end
 
   desc "Stop the application services"
   task :stop do
-    sudo "stop #{fetch(:application)}"
+    on roles(:app) do
+      sudo "stop #{fetch(:application)}"
+    end
   end
 
   desc "Restart the application services"
   task :restart do
-    execute :sudo, "start #{fetch(:application)} || sudo restart #{fetch(:application)}"
+    on roles(:app) do
+      execute :sudo, "start #{fetch(:application)} || sudo restart #{fetch(:application)}"
+    end
   end
 
   after "deploy:updated", "foreman:export"
