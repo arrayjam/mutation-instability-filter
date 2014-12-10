@@ -52,7 +52,7 @@ namespace :foreman do
   task :export do
     on roles(:app) do |host|
       within release_path do
-        sudo :bundle, "exec foreman -f ./Procfile.production export upstart /etc/init -a #{fetch(:application)} -u #{host.user} -l #{shared_path.join('log')}"
+        sudo :bundle, "exec foreman export upstart /etc/init -f ./Procfile.production -a #{fetch(:application)} -u #{host.user} -l #{shared_path.join('log')}"
 
       end
     end
