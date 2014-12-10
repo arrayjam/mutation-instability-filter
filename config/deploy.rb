@@ -70,7 +70,7 @@ namespace :foreman do
 
   desc "Restart the application services"
   task :restart do
-    execute "sudo start #{fetch(:application)} || sudo restart #{fetch(:application)}"
+    execute :sudo, "start #{fetch(:application)} || sudo restart #{fetch(:application)}"
   end
 
   after "deploy:updated", "foreman:export"
