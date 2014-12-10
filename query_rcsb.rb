@@ -41,14 +41,14 @@ def submit_ncbi(fasta)
     page = agent.get(siteurl)
     
     p "page header"
-    p page.header # "DEBUG: ",
+    p page.title # "DEBUG: ",
     
     pageform =  page.forms.first
     p pageform
     
     # Enter fasta file
     #hbox = pageforms.search("//textbox[@name='stype']")
-    hbox = pageform.fields_with(:name => "stype").first
+    hbox = pageform.fields_with(:name => "QUERY").first
     p hbox.value
     hbox.value = fasta
     p hbox.value
@@ -62,11 +62,14 @@ def submit_ncbi(fasta)
     # Select organism
     orginput =  pageform.fields_with(:name => "FORMAT_ORGANISM").first
     p orginput.type
-    orginput.value = "human"
+    orginput.value = "human (taxid:9606)"
     p orginput.value
     
+    p pageform.buttons[1].private_methods
     # Submit form
-    page2 = pageform.submit
+    #page2 = pageform.click_button
+    page2 = pageform.submit #.buttons[1].click_button
+    p page2.title
     
     return
 
