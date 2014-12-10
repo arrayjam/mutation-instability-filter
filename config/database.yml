@@ -18,5 +18,6 @@ test:
 production:
   <<: *default
   database: mutation_instability_filter_production
+  host: localhost
   user: deploy
   password: <%= ENV['MUTATION_INSTABILITY_FILTER_DATABASE_PASSWORD'] %>
