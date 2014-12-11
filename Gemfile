@@ -1,11 +1,9 @@
 source 'https://rubygems.org'
 
 
-gem 'dotenv-rails'
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
-# Use pg so dev and prod are similar
-gem 'pg'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets

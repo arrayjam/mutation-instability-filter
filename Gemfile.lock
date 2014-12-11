@@ -84,8 +84,8 @@ GEM
       activerecord (>= 3.0, < 4.2)
       delayed_job (>= 3.0, < 4.1)
     dotenv (1.0.2)
-    dotenv-rails (1.0.2)
-      dotenv (= 1.0.2)
+    dotenv-deployment (0.2.0)
+      dotenv (~> 1.0)
     erubis (2.7.0)
     execjs (2.2.2)
     foreman (0.76.0)
@@ -113,7 +113,6 @@ GEM
     net-ssh (2.9.1)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
-    pg (0.17.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -198,14 +197,13 @@ DEPENDENCIES
   d3-rails
   daemons
   delayed_job_active_record
-  dotenv-rails
+  dotenv
+  dotenv-deployment
   foreman
   jbuilder (~> 2.0)
   jquery-rails
   nokogiri
-  pg
   pry
-  rails (= 4.1.6)
   rails_12factor
   react-rails (~> 1.0.0.pre)!
   sass-rails (~> 4.0.3)
