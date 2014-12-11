@@ -20,4 +20,3 @@ production:
   database: mutation_instability_filter_production
   host: localhost
   user: deploy
-  password: ""
