@@ -84,6 +84,8 @@ GEM
       activerecord (>= 3.0, < 4.2)
       delayed_job (>= 3.0, < 4.1)
     dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.2.2)
     foreman (0.76.0)
@@ -196,6 +198,7 @@ DEPENDENCIES
   d3-rails
   daemons
   delayed_job_active_record
+  dotenv-rails
   foreman
   jbuilder (~> 2.0)
   jquery-rails
