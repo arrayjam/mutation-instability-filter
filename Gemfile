@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'mechanize'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
