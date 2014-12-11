@@ -21,6 +21,10 @@
     #ActiveRecord::Base.establish_connection
 #end
 
+before_fork do |server, worker|
+    Dotenv.load
+end
+
 app_name = "mutation-instability-filter"
 # Set the working application directory
 # working_directory "/path/to/your/app"
