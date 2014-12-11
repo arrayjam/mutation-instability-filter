@@ -1,2 +1,2 @@
 web:    bundle exec unicorn -p 80 -c ./config/unicorn.rb
-worker: RAILS_ENV=production bundle exec rake jobs:work
+worker: bundle exec rake jobs:work RAILS_ENV=production
