@@ -63,6 +63,8 @@ group :development do
   gem "pry"
 end
 
+gem "pg"
+
 gem "rails_12factor", group: :production
 
 ruby "2.1.5"
