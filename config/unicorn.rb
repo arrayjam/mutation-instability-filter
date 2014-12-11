@@ -21,6 +21,7 @@
     #ActiveRecord::Base.establish_connection
 #end
 
+require 'dotenv'
 before_fork do |server, worker|
     Dotenv.load
 end
