@@ -11,6 +11,8 @@
 
 require 'mechanize'   # Allows easy enquiry of web pages
 
+#page3 = 0
+#Divcontent = 0
 
 def submit_rcsb(acc)
     # Submits amino acid sequence to Protein Data Bank
@@ -44,33 +46,77 @@ def submit_ncbi(fasta)
     p page.title # "DEBUG: ",
     
     pageform =  page.forms.first
-    p pageform
+    #p pageform
     
     # Enter fasta file
     #hbox = pageforms.search("//textbox[@name='stype']")
     hbox = pageform.fields_with(:name => "QUERY").first
-    p hbox.value
     hbox.value = fasta
-    p hbox.value
     
     # Select database
     selectbox =  pageform.radiobutton_with(:value => "blastp")
-    p selectbox
     selectbox.check
-    p selectbox.checked
     
     # Select organism
     orginput =  pageform.fields_with(:name => "FORMAT_ORGANISM").first
-    p orginput.type
     orginput.value = "human (taxid:9606)"
-    p orginput.value
     
-    p pageform.buttons[1].private_methods
+    #p pageform.buttons[1].private_methods
     # Submit form
     #page2 = pageform.click_button
     page2 = pageform.submit #.buttons[1].click_button
-    p page2.title
-    
+    siteurl2 = page2.uri
+    p siteurl2
+    sleep(10)
+    #header2 = page2.header
+    #length2 = page2.body.length
+    #p length2
+    page3 = agent.get(siteurl2)
+    sleep(10)
+    @page4 = agent.get(siteurl2)
+    #p page3.frames
+    #p page3.iframes
+    #p page3.links
+    p 'divwrap'
+    divwrap = @page4.search("//div[@id='wrap']").first
+    p "divcontentwrap"
+    divcontentwrap = divwrap.search("//div[@id='content-wrap']").first
+    p "divcontent"
+    @divcontent = divcontentwrap.search("//div[@id='content']").first
+    #p @divcontent
+    p divcontent.methods
+    p 'formoverview'
+    formoverview0 = @divcontent.search("//form[@name='overview0']").first
+    p formoverview0
+    p 'divdscrView'
+    #p @divcontent.children_with(:action => "Blast.cgi").length
+    #p formoverview0.search("//div[@class='hidden.shown']").length
+    #p divgrView
+    p 'divuihelperreset'
+    #divuihelperreset = divgrView.search("//div[@class='ui-helper-reset']").first
+    p 'divgraphicinfo'
+    #divgraphicInfo = divuihelperreset.search("//div[@id='graphicInfo']").first
+    p 'divgraphic'
+    #divgraphic = divgraphicInfo.search("//div[@id='graphic']").first
+    #p divgraphic
+    #p divgraphic.search("//table")
+    #form3.fields.each { |field|
+    #   p field
+    #}
+    #while page3.body.length == 4
+    #page3 = agent.head(siteurl2)
+    #   p page3.body.length
+    #end
+    #page3 = agent.get(siteurl2)
+    #p page3.frames
+    #p page3.iframes
+    #p page3.links
+    #p page2.forms_with(:name => "overview0")
+    #p agent
+    #p page2.fields_with(:id => "dscTable")
+    #p page2.methods
+    #page2.meta_refresh
+    #p page2.forms
     return
 
 end
