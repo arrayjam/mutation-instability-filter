@@ -1,6 +1,5 @@
 require "nokogiri"
 require "open-uri"
-require "pry"
 
 class Residue
   attr_reader :chain_img_url

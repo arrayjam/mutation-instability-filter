@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141026001647) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
     t.integer  "attempts",   default: 0, null: false
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20141026001647) do
     t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "duet_stability_mutation_jobs", force: true do |t|
     t.integer  "stability_job_id"
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 20141026001647) do
     t.string   "mutant_pdb_file_url"
   end
 
-  add_index "duet_stability_mutation_jobs", ["stability_job_id"], name: "index_duet_stability_mutation_jobs_on_stability_job_id"
+  add_index "duet_stability_mutation_jobs", ["stability_job_id"], name: "index_duet_stability_mutation_jobs_on_stability_job_id", using: :btree
 
   create_table "i_stability_mutation_jobs", force: true do |t|
     t.integer "stability_job_id"
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(version: 20141026001647) do
     t.integer "istable_index"
   end
 
-  add_index "i_stability_mutation_jobs", ["stability_job_id"], name: "index_i_stability_mutation_jobs_on_stability_job_id"
+  add_index "i_stability_mutation_jobs", ["stability_job_id"], name: "index_i_stability_mutation_jobs_on_stability_job_id", using: :btree
 
   create_table "stability_jobs", force: true do |t|
     t.string   "pdb_id"
